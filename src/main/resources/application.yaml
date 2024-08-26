@@ -1,0 +1,37 @@
+server:
+  compression:
+    enabled: true
+  # Default port
+  port: 8080
+  # Enable graceful shutdown - Server will wait for active request to finish
+  shutdown: graceful
+  tomcat:
+    mbeanregistry:
+      enabled: true
+# Spring Configuration
+spring:
+  application:
+    name: quotivate
+  jpa:
+    # Show sql when spring data jpa performs query
+    show-sql: true
+    hibernate:
+      # Format queries
+      format_sql: true
+      # Handle database schema
+      ddl-auto: none
+    database-platform: org.hibernate.dialect.MySQLDialect
+  datasource:
+    # Set a default URL: if MYSQL_URL is not defined, use jdbc:mysql://localhost:3306/quotivate
+    url: ${MYSQL_URL:jdbc:mysql://localhost:3306/quotivate}
+    username: root
+    password:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  sql:
+    init:
+      # Executes schema creation and data insertion scripts on every application start
+      mode: always
+# Crawler Executor Configuration
+crawling:
+  executor:
+    enabled: false

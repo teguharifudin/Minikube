@@ -1,0 +1,37 @@
+# Deployment definition
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: quotivate
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: quotivate
+  template:
+    metadata:
+      labels:
+        app: quotivate
+    spec:
+      containers:
+        - name: app
+          image: quotivate:1.0.0
+          ports:
+            - containerPort: 8080
+          env:
+            - name: MYSQL_URL
+              value: jdbc:mysql://mysql:3306/quotivate
+          imagePullPolicy: Always
+---
+# Service definition
+apiVersion: v1
+kind: Service
+metadata:
+  name: quotivate
+spec:
+  selector:
+    app: quotivate
+  ports:
+    - port: 80
+      targetPort: 8080
+  type: LoadBalancer
